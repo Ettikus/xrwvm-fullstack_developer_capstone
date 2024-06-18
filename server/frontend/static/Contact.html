@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script>
+        const logout = async (e) => {
+            //Include the code for logout here.
+        };
+
+        let checkSession = () => {
+            let curr_user = sessionStorage.getItem("username");
+
+            if (curr_user && curr_user !== "") {
+                document.getElementById("loginlogout").innerHTML = 
+                '<span class="homepage_links">' + curr_user +'</span>' +
+                '<a class="homepage_links" onclick="logout()" href="/">Logout</a>';
+            } else {
+                document.getElementById("loginlogout").innerHTML = 
+                '<a class="homepage_links" href="/login">Login</a>' +
+                '<a class="homepage_links" href="/register">Register</a>';
+            }
+        };
+    </script>
+</head>
+<body onload="checkSession()">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
+        <div class="container-fluid">
+            <h2 style="padding-right: 5%;">Dealerships</h2>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" style="font-size: larger;" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="font-size: larger;" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" style="font-size: larger;" href="/contact">Contact Us</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    <div class="loginlink" id="loginlogout"></div>
+                </span>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <section class="contact-info">
+            <h1 class="title">Contact Us</h1>
+            <p class="details">If you have any questions, feel free to reach out to us!</p>
+            <div class="contact-details card">
+                <h2 class="details">Contact Customer Service</h2>
+                <p class="details">Phone: (123) 456-7890</p>
+                <p class="details">Email: <a href="mailto:customerservice@cars.com" class="homepage_links">customerservice@cars.com</a></p>
+
+                <h2 class="details">Contact National Advertising</h2>
+                <p class="details">Phone: (234) 567-8901</p>
+                <p class="details">Email: <a href="mailto:advertising@cars.com" class="homepage_links">advertising@cars.com</a></p>
+
+                <h2 class="details">Contact Public Relations</h2>
+                <p class="details">Phone: (345) 678-9012</p>
+                <p class="details">Email: <a href="mailto:publicrelations@cars.com" class="homepage_links">publicrelations@cars.com</a></p>
+
+                <h2 class="details">Contact Complaints</h2>
+                <p class="details">Phone: (456) 789-0123</p>
+                <p class="details">Email: <a href="mailto:complaints@cars.com" class="homepage_links">complaints@cars.com</a></p>
+
+                <h2 class="details">Contact Suggestions</h2>
+                <p class="details">Phone: (567) 890-1234</p>
+                <p class="details">Email: <a href="mailto:suggestions@cars.com" class="homepage_links">suggestions@cars.com</a></p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
