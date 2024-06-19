@@ -5,28 +5,49 @@
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" href="static/bootstrap.min.css">
 <script>
-
-const logout = async (e) => {
-//Include the code for logout here.
+const logout = async () => {
+  let logout_url = window.location.origin + "/djangoapp/logout";
+  try {
+    const res = await fetch(logout_url, {
+      method: "GET",
+    });
+    const json = await res.json();
+    if (json) {
+      let username = sessionStorage.getItem('username');
+      sessionStorage.removeItem('username');
+      window.location.href = window.location.origin;
+      window.location.reload();
+      alert("Logging out " + username + "...");
+    } else {
+      alert("The user could not be logged out.");
+    }
+  } catch (error) {
+    console.error('Error during logout:', error);
+    alert("An error occurred during logout.");
+  }
 };
 
-let checkSession = ()=>{
-  let curr_user = sessionStorage.getItem("username");
+let checkSession = () => {
+  let curr_user = sessionStorage.getItem('username');
+  let loginlogoutElem = document.getElementById('loginlogout');
 
-  if (curr_user && curr_user !== "") {
-    document.getElementById("loginlogout").innerHTML = 
-    '<span class="homepage_links">' + curr_user +'</span>' +
-    '<a class="homepage_links" onclick="logout()" href="/">Logout</a>'
+  if (curr_user && curr_user !== '') {
+    loginlogoutElem.innerHTML =
+      '<span class="homepage_links">' + curr_user + '</span>' +
+      '<a class="homepage_links" onclick="logout()" href="#">Logout</a>';
   } else {
-    document.getElementById("loginlogout").innerHTML = 
-    '<a class="homepage_links" href="/login">Login</a>'+
-    '<a class="homepage_links"  href="/register">Register</a>'
+    loginlogoutElem.innerHTML =
+      '<a class="homepage_links" href="/login">Login</a>' +
+      '<a class="homepage_links" href="/register">Register</a>';
   }
- }
+};
+
+// Call checkSession initially when the page loads
+document.addEventListener('DOMContentLoaded', checkSession);
 </script>
 </head>
-<body onload="checkSession()">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkturquoise; height: 1in;">
   <div class="container-fluid">
     <h2 style="padding-right: 5%;">Dealerships</h2>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,19 +67,20 @@ let checkSession = ()=>{
       </ul>
       <span class="navbar-text">
         <div class="loginlink" id="loginlogout">
+          <!-- Content here will be dynamically replaced by JavaScript -->
         </div>
-        </span>
+      </span>
     </div>
   </div>
 </nav>
 <div style="display: flex;flex-direction: column;">
-<div class="card" style="width: 50%;margin-top: 50px;align-self: center;">
-  <img src="static/car_dealership.jpg" class="card-img-top" alt="...">
-  <div class="banner">
-    <h5>Welcome to our Dealerships!</h5>
-    <a href="/dealers" class="btn" style="background-color: aqua;margin:10px">View Dealerships</a>
+  <div class="card" style="width: 50%;margin-top: 50px;align-self: center;">
+    <img src="static/car_dealership.jpg" class="card-img-top" alt="...">
+    <div class="banner">
+      <h5>Welcome to our Dealerships!</h5>
+      <a href="/dealers" class="btn" style="background-color: aqua;margin:10px">View Dealerships</a>
+    </div>
   </div>
-</div>
 </div>
 </body>
 </html>
