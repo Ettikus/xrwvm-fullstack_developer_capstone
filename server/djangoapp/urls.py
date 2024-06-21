@@ -5,18 +5,16 @@ from . import views
 
 app_name = 'djangoapp'
 urlpatterns = [
-    # Your other paths here
+    # Paths for dealer operations
+    path('get_dealers/', views.get_dealerships, name='get_dealers'),
+    path('get_dealers/<str:state>', views.get_dealerships, name='get_dealers_by_state'),
+    path('dealer/<int:dealer_id>', views.get_dealer_details, name='dealer_details'),
+    path('reviews/dealer/<int:dealer_id>', views.get_dealer_reviews, name='dealer_reviews'),
+    path('dealer/<int:dealer_id>/add_review/', views.add_review, name='add_review'),
 
-    # Path for login
-     path('login/', views.login_user, name='login'),
+    # Path for getting cars
+    path('get_cars/', views.get_cars, name='get_cars'),
 
-    # Path for dealer reviews view
-      path('dealer/<int:dealer_id>/reviews/', views.get_dealer_reviews, name='dealer_reviews'),
-
-    # Path for add a review view
-      path('dealer/<int:dealer_id>/add_review/', views.add_review, name='add_review'),
-
-    # Path for get_cars view
-    path('get_cars/', views.get_cars, name='getcars'),
+    # Optional: Add other paths as needed
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
