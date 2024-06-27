@@ -15,7 +15,7 @@ urlpatterns = [
     # Path for getting cars
     
     # Path for login
-    path('login/', views.login_user, name='login_user'),
+    path(route='login', view=views.login_user, name='login'),
 
     # Path for registration
     path('register/', views.registration, name='register'),
