@@ -1,7 +1,4 @@
 import json
-import logging
-from datetime import datetime
-
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth import login, authenticate, logout
@@ -9,13 +6,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-
 from .models import CarMake, CarModel
+from datetime import datetime
 from .populate import initiate
 from .restapis import get_request, analyze_review_sentiments, post_review
+import logging
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
+# Create your views here.
 
 @csrf_exempt
 def login_user(request):
@@ -58,17 +58,23 @@ def get_cars(request):
         initiate()  # Ensure data is populated if not present
 
     car_models = CarModel.objects.select_related('car_make')
-    cars = [{"CarModel": car_model.name, "CarMake": car_model.car_make.name} for car_model in car_models]
+    cars = []
+    for car_model in car_models:
+        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
+
     return JsonResponse({"CarModels": cars})
 
 def get_dealerships(request, state="All"):
-    endpoint = "/fetchDealers" if state == "All" else f"/fetchDealers/{state}"
+    if state == "All":
+        endpoint = "/fetchDealers"
+    else:
+        endpoint = "/fetchDealers/" + state
     dealerships = get_request(endpoint)
     return JsonResponse({"status": 200, "dealers": dealerships})
 
 def get_dealer_details(request, dealer_id):
     if dealer_id:
-        endpoint = f"/fetchDealer/{dealer_id}"
+        endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
         return JsonResponse({"status": 200, "dealer": dealership})
     else:
@@ -76,7 +82,7 @@ def get_dealer_details(request, dealer_id):
 
 def get_dealer_reviews(request, dealer_id):
     if dealer_id:
-        endpoint = f"/fetchReviews/dealer/{dealer_id}"
+        endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
         for review_detail in reviews:
             response = analyze_review_sentiments(review_detail['review'])
@@ -93,10 +99,10 @@ def add_review(request):
         
         try:
             response = post_review(data)
-            logger.info(f"Review added successfully: {response}")  # Logging the successful addition
+            print(response)  # Print the response for debugging
             return JsonResponse({"status": 200, "message": "Review added successfully"})
         except Exception as e:
-            logger.error(f"Error in posting review: {str(e)}")  # Logging the error
+            print(str(e))  # Print the exception for debugging
             return JsonResponse({"status": 500, "message": "Error in posting review"})
     else:
         return JsonResponse({"status": 405, "message": "Method not allowed"})
