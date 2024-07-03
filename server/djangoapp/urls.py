@@ -13,12 +13,12 @@ urlpatterns = [
     path('dealer/<int:dealer_id>/add_review/', views.add_review, name='add_review'),
 
     # Path for getting cars
-    
+    # You can add the path for getting cars here
+
     # Path for login
     path(route='login', view=views.login_user, name='login'),
 
     # Path for registration
     path(route='register', view=views.registration, name='register'),
 
-    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
