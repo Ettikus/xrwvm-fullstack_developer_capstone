@@ -1,13 +1,12 @@
-from django.contrib import admin
-from .models import CarMake, CarModel
+ from  django.contrib import admin
+ from .models import CarMake, CarModel
 
-# CarModelInline class to display CarModel inline within CarMake admin
+
  class CarModelInline(admin.StackedInline):
     model = CarModel
     extra = 1
 
 
-# CarModelAdmin class to customize the admin interface for CarModel
 class CarModelAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'year', 'car_make']
     list_filter = ['type', 'year', 'car_make']
