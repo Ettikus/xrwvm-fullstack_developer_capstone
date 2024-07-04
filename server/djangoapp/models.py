@@ -14,7 +14,6 @@ class CarMake(models.Model):
 # CarModel model
 class CarModel(models.Model):
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # Many-to-One relationship
-    dealer_id = models.IntegerField()  # Refers to a dealer created in Cloudant database
     name = models.CharField(max_length=100)
     
     CAR_TYPES = [
@@ -36,5 +35,5 @@ class CarModel(models.Model):
     # Additional fields if needed
 
     def __str__(self):
-        return f"{self.car_make.name} {self.name}"  # Return car make and model name as the string representation
+        return self.name
 
